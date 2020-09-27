@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void openDialog() {
         ArrayList<Integer> tipPercentages = new ArrayList<Integer>();
+        tipPercentages.add(10);
+        tipPercentages.add(15);
+        tipPercentages.add(25);
         TipConfiguration config = new TipConfiguration(
                 new BigInteger("100"),
                 "Add Tipping",

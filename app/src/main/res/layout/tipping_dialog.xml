@@ -7,131 +7,137 @@
     android:background="@color/colorNeutral">
 
     <Button
-        android:id="@+id/finish"
-        android:layout_width="378dp"
+        android:id="@+id/finishBtn"
+        android:layout_width="368dp"
         android:layout_height="63dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="15dp"
         android:background="@color/colorPrimary"
+        android:enabled="false"
         android:text="Finish"
         android:textColorHighlight="#FFFFFF"
         android:textColorLink="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tipLinearLayout"
         app:rippleColor="@color/colorPrimary" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="118dp"
+        android:layout_height="5dp"
+        android:layout_marginTop="193dp"
+        android:layout_marginBottom="79dp"
+        android:layerType="software"
+        android:src="@drawable/dotted"
+        app:layout_constraintBottom_toTopOf="@+id/tipLinearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/totalValue"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/totalLabel"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="409dp"
-        android:layout_height="279dp"
-        android:layout_marginTop="180dp"
+        android:id="@+id/tipLinearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="97dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/finish"
+        app:layout_constraintBottom_toTopOf="@+id/finishBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/materialCardView"
-                android:layout_width="264dp"
-                android:layout_height="90dp"
-                android:layout_marginTop="32dp"
-                android:checkable="true"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/materialCardView2"
-                android:layout_width="264dp"
-                android:layout_height="90dp"
-                android:layout_marginTop="32dp"
-                android:checkable="true"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialCardView">
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/materialCardView3"
-                android:layout_width="264dp"
-                android:layout_height="90dp"
-                android:layout_marginTop="32dp"
-                android:checkable="true"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialCardView2">
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/materialCardView4"
-                android:layout_width="264dp"
-                android:layout_height="90dp"
-                android:layout_marginTop="32dp"
-                android:checkable="true"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialCardView3">
-
-            </com.google.android.material.card.MaterialCardView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/amountValue"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="23dp"
+        android:gravity="left|center_vertical"
+        android:tag="amountValue"
+        android:text="45,00 €"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/amountLabel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tipLabel"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="119dp"
+        android:gravity="right|center_vertical"
+        android:tag="tipLabel"
+        android:text="Tip"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toStartOf="@+id/tipValue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amountLabel" />
+
+    <TextView
+        android:id="@+id/tipValue"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="62dp"
+        android:gravity="left|center_vertical"
+        android:tag="tipValue"
+        android:text="5,34 €"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tipLabel"
+        app:layout_constraintTop_toBottomOf="@+id/amountValue" />
+
+
+    <TextView
+        android:id="@+id/totalLabel"
+        android:layout_width="116dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:gravity="right|center_vertical"
+        android:tag="totalLabel"
+        android:text="Total"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tipLabel" />
+
+    <TextView
+        android:id="@+id/totalValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="17dp"
+        android:gravity="left|center_vertical"
+        android:tag="totalValue"
         android:text="50,34 €"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/tipValue" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="126dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="68dp"
+        android:id="@+id/amountLabel"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="119dp"
+        android:gravity="right|center_vertical"
+        android:tag="amountLabel"
         android:text="Amount"
-        android:textSize="36sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toStartOf="@+id/amountValue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
