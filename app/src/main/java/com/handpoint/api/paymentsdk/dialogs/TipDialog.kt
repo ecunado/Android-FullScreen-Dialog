@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.tipping_dialog.*
 
 
 const val CONFIG_PARAM = "config"
+const val LISTENER_PARAM = "listener"
 const val TIPS_PER_ROW = 2 // Number of tip cards per row
 
 class TipDialog : DialogFragment(), View.OnClickListener {
@@ -24,6 +25,7 @@ class TipDialog : DialogFragment(), View.OnClickListener {
     var selectedTip: Int = 0;
     var selectedTipView: MaterialCardView? = null;
 
+    var listener: TipDialogResultListener? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +62,8 @@ class TipDialog : DialogFragment(), View.OnClickListener {
 
     private fun init() {
         val tipConfiguration: TipConfiguration = this.arguments?.get(CONFIG_PARAM) as TipConfiguration
+        listener = this.arguments?.get(LISTENER_PARAM) as TipDialogResultListener
+
         totalLabel!!.text = "Total"
         totalValue!!.text = "1.200,12 €"
         tipLabel!!.text = tipConfiguration.headerName
@@ -112,7 +116,6 @@ class TipDialog : DialogFragment(), View.OnClickListener {
             // Check clicked card
             tipView.isChecked = !tipView.isChecked
             if (tipView.isChecked) {
-                Toast.makeText(this.context, "Enabled", Toast.LENGTH_SHORT).show()
                 // Save selected percentage
                 selectedTip = percentage
                 selectedTipView = tipView
@@ -120,7 +123,6 @@ class TipDialog : DialogFragment(), View.OnClickListener {
                 finishBtn.text = "Finish  •  " + tipView.amount.text
                 finishBtn.isEnabled = true
             } else {
-                Toast.makeText(this.context, "NON Enabled", Toast.LENGTH_SHORT).show()
                 selectedTip = 0
                 selectedTipView = null
                 finishBtn.text = "Finish"
@@ -139,9 +141,10 @@ class TipDialog : DialogFragment(), View.OnClickListener {
         const val TAG = "tipping_dialog"
 
         @JvmStatic
-        fun display(fragmentManager: FragmentManager, config: TipConfiguration): TipDialog {
+        fun display(fragmentManager: FragmentManager, config: TipConfiguration, listener: TipDialogResultListener): TipDialog {
             val args = Bundle().apply {
                 putSerializable(CONFIG_PARAM, config)
+                putSerializable(LISTENER_PARAM, listener)
             }
             val tipDialog = TipDialog()
             tipDialog.arguments = args
@@ -153,6 +156,7 @@ class TipDialog : DialogFragment(), View.OnClickListener {
     override fun onClick(v: View) {
         if (v?.id?.equals(R.id.finishBtn)) {
             Toast.makeText(this.context, "Percentage $selectedTip", Toast.LENGTH_SHORT).show()
+            listener?.addTip(selectedTip)
             dismiss()
         }
 
