@@ -7,26 +7,32 @@
     android:background="@color/colorNeutral">
 
     <!-- Header -->
-
-    <ScrollView
+    <LinearLayout
         android:id="@+id/tipLinearLayoutWrapper"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="180dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
-        <!-- Here you put the rest of your current view-->
-        <LinearLayout
-            android:id="@+id/tipLinearLayout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
 
-        </LinearLayout>
-    </ScrollView>
+        <ScrollView
+            android:id="@+id/tipLinearLayoutScroll"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="0dp"
+            android:fillViewport="true">
+            <!-- Here you put the rest of your current view-->
+            <LinearLayout
+                android:id="@+id/tipLinearLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -45,20 +51,19 @@
             android:layout_height="match_parent"
             tools:layout_editor_absoluteX="16dp">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="8dp"
-                android:gravity="left|bottom"
-                android:tag="totalLabel"
-                android:text="Add tip"
-                android:textColor="@android:color/white"
-                android:textSize="36sp"
+            <ImageView
+                android:id="@+id/divider"
+                android:layout_width="363dp"
+                android:layout_height="5dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="24dp"
+                android:alpha="0.5"
+                android:layerType="software"
+                android:src="@drawable/dotted"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/tipValue" />
 
             <TextView
                 android:id="@+id/amountValue"
@@ -81,9 +86,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_marginEnd="36dp"
+                android:alpha="0.5"
                 android:gravity="center|center_vertical"
                 android:text="+"
-                android:alpha="0.5"
                 android:textColor="@android:color/white"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -104,19 +109,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/plus" />
 
-            <ImageView
-                android:id="@+id/divider"
-                android:layout_width="363dp"
-                android:layout_height="5dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="24dp"
-                android:layerType="software"
-                android:src="@drawable/dotted"
-                android:alpha="0.5"
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="8dp"
+                android:gravity="left|bottom"
+                android:tag="totalLabel"
+                android:text="Add tip"
+                android:textColor="@android:color/white"
+                android:textSize="36sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tipValue" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/totalValue"
@@ -150,13 +156,13 @@
             android:layout_width="fill_parent"
             android:layout_height="63dp"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:background="@color/colorPrimary"
             android:enabled="false"
             android:text="Finish"
             android:textColorHighlight="#FFFFFF"
             android:textColorLink="@color/colorPrimary"
-            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
