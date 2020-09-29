@@ -56,12 +56,17 @@ class TipDialog : DialogFragment(), View.OnClickListener {
     private fun init() {
         tipConfiguration = this.arguments?.get(CONFIG_PARAM) as TipConfiguration
         listener = this.arguments?.get(LISTENER_PARAM) as TipDialogResultListener
-        title.text = tipConfiguration?.headerName
-        amountValue.text = tipConfiguration?.baseAmount.toString() + " €" // TODO format base amount
-        refreshAmounts()
         addTips(tipConfiguration?.tipPercentages)
         finishBtn.setOnClickListener(this);
         skip.setOnClickListener(this);
+        reset()
+    }
+
+    private fun reset() {
+        selectedTip = 0
+        title.text = tipConfiguration?.headerName
+        amountValue.text = tipConfiguration?.baseAmount.toString() + " €" // TODO format base amount
+        refreshAmounts()
     }
 
     private fun refreshAmounts() {
@@ -170,6 +175,9 @@ class TipDialog : DialogFragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if (v?.id?.equals(R.id.finishBtn) || v?.id?.equals(R.id.skip)) {
+            if (v?.id?.equals(R.id.skip)) {
+                reset()
+            }
             Toast.makeText(this.context, "Percentage $selectedTip", Toast.LENGTH_SHORT).show()
             listener?.addTip(selectedTip)
             dismiss()
