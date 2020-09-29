@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -16,16 +17,15 @@ import kotlinx.android.synthetic.main.tipping_dialog.*
 
 const val CONFIG_PARAM = "config"
 const val LISTENER_PARAM = "listener"
-const val TIPS_PER_ROW = 2 // Number of tip cards per row
+const val TIPS_PER_ROW = 1 // Number of tip cards per row
 
 class TipDialog : DialogFragment(), View.OnClickListener {
 
-    var tipList: MutableList<MaterialCardView> = mutableListOf();
-
-    var selectedTip: Int = 0;
-    var selectedTipView: MaterialCardView? = null;
-
-    var listener: TipDialogResultListener? = null;
+    private var tipConfiguration: TipConfiguration? = null
+    private var tipList: MutableList<MaterialCardView> = mutableListOf()
+    private var selectedTip: Int = 0
+    private var selectedTipView: MaterialCardView? = null
+    private var listener: TipDialogResultListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,38 +51,42 @@ class TipDialog : DialogFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-        /*toolbar!!.setNavigationOnClickListener { v: View? -> dismiss() }
-        toolbar!!.title = config.headerName
-        toolbar!!.inflateMenu(R.menu.tipping_dialog)
-        toolbar!!.setOnMenuItemClickListener { item: MenuItem? ->
-            dismiss()
-            true
-        }*/
     }
 
     private fun init() {
-        val tipConfiguration: TipConfiguration = this.arguments?.get(CONFIG_PARAM) as TipConfiguration
+        tipConfiguration = this.arguments?.get(CONFIG_PARAM) as TipConfiguration
         listener = this.arguments?.get(LISTENER_PARAM) as TipDialogResultListener
-
-        totalLabel!!.text = "Total"
-        totalValue!!.text = "1.200,12 €"
-        tipLabel!!.text = tipConfiguration.headerName
-        tipValue!!.text = "100 €"
-        amountLabel!!.text = "Amount"
-        amountValue.text = "1.100,12 €"
-        addTips(tipConfiguration.tipPercentages)
+        title.text = tipConfiguration?.headerName
+        amountValue.text = tipConfiguration?.baseAmount.toString() + " €" // TODO format base amount
+        refreshAmounts()
+        addTips(tipConfiguration?.tipPercentages)
         finishBtn.setOnClickListener(this);
+        skip.setOnClickListener(this);
+    }
+
+    private fun refreshAmounts() {
+        val total: Float? = tipConfiguration?.baseAmount?.toFloat()?.plus(getTipAmount(selectedTip ?: 0))
+        totalValue.text = formatCurrency(total ?: 0f)
+        tipValue.text = formatCurrency(getTipAmount(selectedTip))
+        // Action button
+        finishBtn.text = "Finish  •  " + totalValue.text  // i18n & TODO Format total amount
+        finishBtn.isEnabled = selectedTipView != null
+    }
+
+    private fun getTipAmount(percentage: Int): Float {
+        val tip: Float? = tipConfiguration?.baseAmount?.toFloat()?.times(percentage.toFloat() / 100f)
+        return (tip ?: 0f)
     }
 
     /**
      * Adds a set of tips to the list.
      * The list will be cleared before adding the new list
      */
-    private fun addTips(percentages: List<Int>) {
+    private fun addTips(percentages: List<Int>?) {
         // Remove existing cards
         tipLinearLayout.removeAllViews()
         // Iterate over [TIPS_PER_ROW] tips at a time
-        percentages.chunked(TIPS_PER_ROW).forEach {
+        percentages?.chunked(TIPS_PER_ROW)?.forEach {
             addTipRow(it)
         }
     }
@@ -95,17 +99,24 @@ class TipDialog : DialogFragment(), View.OnClickListener {
             throw Exception("Only $TIPS_PER_ROW tips allowed for each row")
         }
         for (percentage in percentages) {
-            addTipClosure(percentage)
+            addTip(percentage)
         }
     }
 
     /**
      * Adds a tip card to the linear layout
      */
-    private fun addTipClosure(percentage: Int) {
+    private fun addTip(percentage: Int) {
         // Create the card
         val tipView: View = layoutInflater.inflate(R.layout.tip_card, null,false)
         val materialCard = (tipView as MaterialCardView)
+
+        var percentageView: TextView = materialCard.findViewById<TextView>(R.id.percentage)
+        var amountView: TextView = materialCard.findViewById<TextView>(R.id.amount)
+        val tipAmount: Float = getTipAmount(percentage)
+
+        percentageView.text = formatPercentage(percentage)
+        amountView.text = formatCurrency(tipAmount)
 
         // Set click listener to check the card
         materialCard.setOnClickListener {
@@ -118,16 +129,12 @@ class TipDialog : DialogFragment(), View.OnClickListener {
             if (tipView.isChecked) {
                 // Save selected percentage
                 selectedTip = percentage
-                selectedTipView = tipView
-                // Update finish button and enable it
-                finishBtn.text = "Finish  •  " + tipView.amount.text
-                finishBtn.isEnabled = true
+                selectedTipView = materialCard
             } else {
                 selectedTip = 0
                 selectedTipView = null
-                finishBtn.text = "Finish"
-                finishBtn.isEnabled = false
             }
+            refreshAmounts()
 
             true
         }
@@ -153,8 +160,16 @@ class TipDialog : DialogFragment(), View.OnClickListener {
         }
     }
 
+    private fun formatPercentage(percentage: Int): String {
+        return "$percentage %" // TODO i18n
+    }
+
+    private fun formatCurrency(amount: Float): String {
+        return "$amount €" // TODO i18n
+    }
+
     override fun onClick(v: View) {
-        if (v?.id?.equals(R.id.finishBtn)) {
+        if (v?.id?.equals(R.id.finishBtn) || v?.id?.equals(R.id.skip)) {
             Toast.makeText(this.context, "Percentage $selectedTip", Toast.LENGTH_SHORT).show()
             listener?.addTip(selectedTip)
             dismiss()
