@@ -46,7 +46,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     private fun initTipFragment() {
         addTips(tipConfiguration?.tipPercentages)
         if (tipConfiguration!!.isEnterAmountEnabled) {
-            addCustomAmountAction("Custom Amount", "Enter a custom amount")   // TODO i18n
+            addCardAction("Custom Amount", "Enter a custom amount")   // TODO i18n
         }
         if (tipConfiguration!!.isSkipEnabled) {
             addSkipAction("Skip", "Continue")                  // TODO i18n
@@ -181,7 +181,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
          return i18n.formatCurrencyCode(amount.toString(), currency?.alpha ?: Currency.GBP.alpha)
     }
 
-    private fun addCustomAmountAction(title: String, subtitle: String): MaterialCardView {
+    private fun addCardAction(title: String, subtitle: String): MaterialCardView {
         // Create the row
         val row: View = layoutInflater.inflate(R.layout.action_row, null,false)
         val materialCard = getCardTipById(CARD_ID, row)
@@ -194,11 +194,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
 
         // Set click listener to check the card
         materialCard.setOnClickListener {
-            // Uncheck the rest of cards
-            uncheckCards(materialCard)
-            // Check clicked card
-            materialCard.isChecked = !materialCard.isChecked
-
+            // Show pad
             showPad()
             true
         }
@@ -208,6 +204,15 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
 
         return materialCard
     }
+
+    private fun addSkipAction(title: String, subtitle: String): MaterialCardView? {
+        return null
+    }
+
+    private fun setAction(title: String, subtitle: String): MaterialCardView? {
+        return null
+    }
+
 
     private fun showPad() {
         containerFlipper.inAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_in_right)
@@ -219,10 +224,6 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         containerFlipper.inAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_in_left)
         containerFlipper.outAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_out_right)
         containerFlipper.showPrevious()
-    }
-
-    private fun addSkipAction(title: String, subtitle: String): MaterialCardView? {
-        return null
     }
 
     override fun onClick(v: View) {
