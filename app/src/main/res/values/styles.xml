@@ -1,19 +1,19 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorSecondary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:colorBackground">@color/colorSecondary</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/success_stroke_color</item>
+        <item name="colorAccent">@color/success_stroke_color</item>
+        <item name="android:colorBackground">@color/success_stroke_color</item>
     </style>
 
     <style name="AppTheme.FullScreenDialog" parent="Theme.MaterialComponents.Light.Dialog">
-        <item name="colorPrimaryDark">@color/colorSecondary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/success_stroke_color</item>
+        <item name="colorAccent">@color/success_stroke_color</item>
+        <item name="colorPrimary">@color/green</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="actionMenuTextColor">@color/colorAccent</item>
+        <item name="actionMenuTextColor">@color/success_stroke_color</item>
     </style>
 
     <style name="AppTheme.Slide">

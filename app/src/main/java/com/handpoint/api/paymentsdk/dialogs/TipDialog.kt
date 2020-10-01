@@ -11,15 +11,14 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.card.MaterialCardView
 import com.handpoint.api.shared.TipConfiguration
 import io.alexanderschaefer.fullscreendialog.R
-import kotlinx.android.synthetic.main.tip_card.view.*
-import kotlinx.android.synthetic.main.tipping_dialog.*
+import kotlinx.android.synthetic.main.tip_dialog.*
 
 
 const val CONFIG_PARAM = "config"
 const val LISTENER_PARAM = "listener"
 const val TIPS_PER_ROW = 1 // Number of tip cards per row
 
-class TipDialog : DialogFragment(), View.OnClickListener {
+class TipDialog: DialogFragment(), View.OnClickListener {
 
     private var tipConfiguration: TipConfiguration? = null
     private var tipList: MutableList<MaterialCardView> = mutableListOf()
@@ -45,7 +44,7 @@ class TipDialog : DialogFragment(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.tipping_dialog, container, false)
+        return inflater.inflate(R.layout.tip_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +52,7 @@ class TipDialog : DialogFragment(), View.OnClickListener {
         init()
     }
 
-    private fun init() {
+    fun init() {
         tipConfiguration = this.arguments?.get(CONFIG_PARAM) as TipConfiguration
         listener = this.arguments?.get(LISTENER_PARAM) as TipDialogResultListener
         addTips(tipConfiguration?.tipPercentages)
@@ -65,14 +64,12 @@ class TipDialog : DialogFragment(), View.OnClickListener {
     private fun reset() {
         selectedTip = 0
         title.text = tipConfiguration?.headerName
-        amountValue.text = tipConfiguration?.baseAmount.toString() + " €" // TODO format base amount
         refreshAmounts()
     }
 
     private fun refreshAmounts() {
         val total: Float? = tipConfiguration?.baseAmount?.toFloat()?.plus(getTipAmount(selectedTip ?: 0))
         totalValue.text = formatCurrency(total ?: 0f)
-        tipValue.text = formatCurrency(getTipAmount(selectedTip))
         // Action button
         finishBtn.text = "Finish  •  " + totalValue.text  // i18n & TODO Format total amount
         finishBtn.isEnabled = selectedTipView != null
@@ -149,22 +146,6 @@ class TipDialog : DialogFragment(), View.OnClickListener {
         tipLinearLayout.addView(tipView)
     }
 
-    companion object {
-        const val TAG = "tipping_dialog"
-
-        @JvmStatic
-        fun display(fragmentManager: FragmentManager, config: TipConfiguration, listener: TipDialogResultListener): TipDialog {
-            val args = Bundle().apply {
-                putSerializable(CONFIG_PARAM, config)
-                putSerializable(LISTENER_PARAM, listener)
-            }
-            val tipDialog = TipDialog()
-            tipDialog.arguments = args
-            tipDialog.show(fragmentManager, TAG)
-            return tipDialog
-        }
-    }
-
     private fun formatPercentage(percentage: Int): String {
         return "$percentage %" // TODO i18n
     }
@@ -183,6 +164,22 @@ class TipDialog : DialogFragment(), View.OnClickListener {
             dismiss()
         }
 
+    }
+
+    companion object {
+        private const val TAG = "tip_dialog"
+
+        @JvmStatic
+        fun display(fragmentManager: FragmentManager, config: TipConfiguration, listener: TipDialogResultListener): TipDialog {
+            val args = Bundle().apply {
+                putSerializable(CONFIG_PARAM, config)
+                putSerializable(LISTENER_PARAM, listener)
+            }
+            val tipDialog = TipDialog()
+            tipDialog.arguments = args
+            tipDialog.show(fragmentManager, TAG)
+            return tipDialog
+        }
     }
 
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dp0">0dp</dimen>
+    <dimen name="dp2">2dp</dimen>
+    <dimen name="dp8">8dp</dimen>
+    <dimen name="dp10">10dp</dimen>
+    <dimen name="dp12">12dp</dimen>
+    <dimen name="dp15">15dp</dimen>
+    <dimen name="dp20">20dp</dimen>
+    <dimen name="dp50">50dp</dimen>
+    <dimen name="dp16">16dp</dimen>
+    <dimen name="dp200">200dp</dimen>
+    <dimen name="dp40">40dp</dimen>
+    <dimen name="dp30">30dp</dimen>
+    <dimen name="dp5">5dp</dimen>
+
+    <dimen name="sp20">20sp</dimen>
+    <dimen name="sp25">25sp</dimen>
+    <dimen name="sp17">17sp</dimen>
+
+    <dimen name="alert_width">280dp</dimen>
+    <dimen name="alert_height">180dp</dimen>
+    <dimen name="common_circle_width">3dp</dimen>
+    <dimen name="progress_circle_radius">34dp</dimen>
+    <dimen name="font_size_smaller">34dp</dimen>
+    <dimen name="font_size_normal">20sp</dimen>
+    <dimen name="font_size_large">23sp</dimen>
+    <dimen name="font_size_small">17sp</dimen>
+
+    <dimen name="pinpad_number_width">122dp</dimen>
+    <dimen name="pinpad_number_height">90dp</dimen>
+    <dimen name="pinpad_number_bigger_button">160dp</dimen>
+</resources>

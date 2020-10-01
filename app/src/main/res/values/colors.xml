@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2394bc</color>
-    <color name="colorSecondary">#467290</color>
-    <color name="colorAccent">#ff79b0</color>
-    <color name="colorSuccess">#2fb34d</color>
-    <color name="colorDanger">#dd211a</color>
     <color name="colorNeutral">#ebecee</color>
+    <color name="colorDarkGray">#666666</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="White">#FFFFFF</color>
+    <color name="colorLightGray">#cccccc</color>
+    <color name="float_transparent">#00000000</color>
+    <color name="success_stroke_color">#008B8B</color>
+    <color name="sweet_dialog_bg_color">#FFFFFF</color>
+    <color name="error_stroke_color">#FF0000</color>
+    <color name="cancel_button_text">#333333</color>
+    <color name="blue_btn_bg_color">#AEDEF4</color>
+    <color name="prompt_text_color">#858585</color>
+    <color name="blue_btn_pressed_color">#96BFD2</color>
+    <color name="login_btn_bg_color">#DB7D25</color>
+    <color name="gray_btn_bg_color">#D0D0D0</color>
+    <color name="gray_btn_bg_pressed_color">#B6B6B6</color>
+    <color name="login_btn_bg_pressed_color">#BE6D1E</color>
+    <color name="gray_blue">#49749F</color>
+    <color name="green">#42b04a</color>
+    <color name="red">#d5272a</color>
+    <color name="yellow">#f39c12</color>
+    <color name="dark_blue">#2d3059</color>
+    <color name="colorPrimary">#42b04a</color>
+    <color name="colorDanger">#42b04a</color>
+
+    <color name="black_overlay">#66000000</color>
+
+    <drawable name="tint_enter_button">#2D9732</drawable>
+    <drawable name="enter_button">#42b04a</drawable>
+    <drawable name="tint_cancel_button">#D93B34</drawable>
+    <drawable name="cancel_button">#E2574C</drawable>
+    <drawable name="tint_return_button">#EEA70B</drawable>
+    <drawable name="return_button">#F2BE10</drawable>
+    <drawable name="tint_number_button">#DBE4E1</drawable>
+    <drawable name="number_button">#FFFFFF</drawable>
 </resources>
