@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text=""
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textColor="@color/colorDarkGray"
             app:autoSizeTextType="none"
             app:layout_constraintEnd_toEndOf="parent"
