@@ -11,38 +11,17 @@ import io.alexanderschaefer.fullscreendialog.R
 
 const val CURRENCY_PARAM = "currency"
 
-open class PadDialog : DialogFragment(), View.OnClickListener {
+open class PadDialog : FullScreenDialog(), View.OnClickListener {
 
     private var currency: Currency? = null
     private var listener: PadDialogResultListener? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val dialog = dialog
-        if (dialog != null) {
-            val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
-            dialog.window?.setLayout(width, height)
-            dialog.window?.setWindowAnimations(R.style.AppTheme_Slide)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.pad_dialog, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        init()
-    }
-
-    fun init() {
+    override fun init() {
         currency = this.arguments?.get(CURRENCY_PARAM) as Currency
         listener = this.arguments?.get(LISTENER_PARAM) as PadDialogResultListener
         //finishBtn.setOnClickListener(this);

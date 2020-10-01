@@ -18,7 +18,7 @@ const val CONFIG_PARAM = "config"
 const val LISTENER_PARAM = "listener"
 const val TIPS_PER_ROW = 1 // Number of tip cards per row
 
-class TipDialog: DialogFragment(), View.OnClickListener {
+class TipDialog: FullScreenDialog(), View.OnClickListener {
 
     private var tipConfiguration: TipConfiguration? = null
     private var tipList: MutableList<MaterialCardView> = mutableListOf()
@@ -26,33 +26,12 @@ class TipDialog: DialogFragment(), View.OnClickListener {
     private var selectedTipView: MaterialCardView? = null
     private var listener: TipDialogResultListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val dialog = dialog
-        if (dialog != null) {
-            val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
-            dialog.window?.setLayout(width, height)
-            dialog.window?.setWindowAnimations(R.style.AppTheme_Slide)
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.tip_dialog, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        init()
-    }
-
-    fun init() {
+    override fun init() {
         tipConfiguration = this.arguments?.get(CONFIG_PARAM) as TipConfiguration
         listener = this.arguments?.get(LISTENER_PARAM) as TipDialogResultListener
         addTips(tipConfiguration?.tipPercentages)

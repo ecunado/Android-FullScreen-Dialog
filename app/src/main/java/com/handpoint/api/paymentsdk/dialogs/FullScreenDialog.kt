@@ -1,7 +1,6 @@
 package com.handpoint.api.paymentsdk.dialogs
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
@@ -23,11 +22,6 @@ abstract class FullScreenDialog : DialogFragment() {
             dialog.window?.setLayout(width, height)
             dialog.window?.setWindowAnimations(R.style.AppTheme_Slide)
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.pad_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
