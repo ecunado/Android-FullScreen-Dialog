@@ -158,7 +158,7 @@
                         android:textSize="50sp">
                     </TextView>
                     <TextView
-                        android:id="@+id/pinAsterisk"
+                        android:id="@+id/padAmount"
                         android:layout_width="match_parent"
                         android:layout_height="55sp"
                         android:gravity="center"
@@ -167,10 +167,10 @@
                         android:textSize="42sp">
                     </TextView>
                     <TextView
-                        android:id="@+id/pinASteriskTv"
+                        android:id="@+id/padTotalAmount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Last PIN Attempt"
+                        android:text=""
                         android:fontFamily="@font/monserrat_regular"
                         android:textSize="20sp"
                         android:gravity="center">
@@ -197,6 +197,7 @@
                             android:gravity="center"
                             android:background="@drawable/border"
                             android:text="1"
+                            android:tag="number"
                             android:textSize="60dp" />
                     </FrameLayout>
 
@@ -215,6 +216,7 @@
                             android:gravity="center"
                             android:background="@drawable/border"
                             android:text="2"
+                            android:tag="number"
                             android:textSize="60dp" />
                     </FrameLayout>
 
@@ -233,6 +235,7 @@
                             android:gravity="center"
                             android:background="@drawable/border"
                             android:text="3"
+                            android:tag="number"
                             android:textSize="60dp" />
 
                     </FrameLayout>
@@ -258,6 +261,7 @@
                             android:gravity="center"
                             android:background="@drawable/border"
                             android:text="4"
+                            android:tag="number"
                             android:textSize="60dp" />
                     </FrameLayout>
 
@@ -276,6 +280,7 @@
                             android:gravity="center"
                             android:background="@drawable/border"
                             android:text="5"
+                            android:tag="number"
                             android:textSize="60dp" />
 
                     </FrameLayout>
@@ -296,6 +301,7 @@
                             android:gravity="center"
                             android:background="@drawable/border"
                             android:text="6"
+                            android:tag="number"
                             android:textSize="60dp" />
                     </FrameLayout>
 
@@ -321,6 +327,7 @@
                             android:gravity="center"
                             android:background="@drawable/border"
                             android:text="7"
+                            android:tag="number"
                             android:textSize="60dp" />
                     </FrameLayout>
 
@@ -338,6 +345,7 @@
                             android:layout_height="match_parent"
                             android:background="@drawable/border"
                             android:text="8"
+                            android:tag="number"
                             android:gravity="center"
                             android:textSize="60dp"/>
                     </FrameLayout>
@@ -356,6 +364,7 @@
                             android:layout_height="match_parent"
                             android:background="@drawable/border"
                             android:text="9"
+                            android:tag="number"
                             android:gravity="center"
                             android:textSize="60dp"/>
                     </FrameLayout>
@@ -406,41 +415,44 @@
                                 android:background="@drawable/border"
                                 android:gravity="center"
                                 android:text="0"
-                                android:textSize="60dp" />
+                                android:tag="number"
+                                android:textSize="60dp"/>
                         </FrameLayout>
 
                         <RelativeLayout
-
+                            android:id="@+id/deleteButton"
                             android:layout_width="match_parent"
                             android:layout_height="70sp"
                             android:background="@drawable/return_button_background_pinpad"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:tag="delete">
 
                             <ImageView
-                                android:id="@+id/returnButton"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_centerInParent="true"
                                 android:src="@drawable/label"
-                                android:text="TextView" />
+                                android:text="TextView"
+                                android:clickable="false"/>
                         </RelativeLayout>
 
                     </LinearLayout>
                     <RelativeLayout
-
+                        android:id="@+id/acceptButton"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:background="@drawable/enter_button_background_pinpad"
                         android:clickable="true"
+                        android:tag="accept"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/acceptButton"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_centerInParent="true"
-                            android:src="@drawable/tick" />
+                            android:src="@drawable/tick"
+                            android:clickable="false"/>
 
                     </RelativeLayout>
                 </LinearLayout>

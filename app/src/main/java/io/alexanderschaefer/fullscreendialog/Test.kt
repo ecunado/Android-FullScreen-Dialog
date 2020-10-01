@@ -7,8 +7,13 @@ fun getTipAmount(baseAmount: BigInteger, percentage: Int): BigInteger {
     return BigDecimal.valueOf(amount).toBigInteger()
 }
 
+fun getTipPercentage(baseAmount: BigInteger, tip: BigInteger): BigInteger {
+    val amount: Double = (tip.toDouble() * BigInteger("100").toDouble()) /  (baseAmount.toInt() ?: 0)
+    return BigDecimal.valueOf(amount).toBigInteger()
+}
+
 fun main(args: Array<String>) {
-    val tot = getTipAmount(BigInteger("80"), 12)
-    println("Amount $tot")
+    val tot = getTipPercentage(BigInteger("80"), BigInteger("20"))
+    println("Percentage $tot")
 }
 

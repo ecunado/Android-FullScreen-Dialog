@@ -23,11 +23,17 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     private var currency: Currency? = null
     private var rowList: MutableList<View> = mutableListOf()
     private var cardList: MutableList<MaterialCardView> = mutableListOf()
-    private var selectedTip: Int = 0
-    private var selectedTipView: MaterialCardView? = null
-    private var listener: TipDialogResultListener? = null
     private var customAmountCard: MaterialCardView? = null
     private var skipCard: MaterialCardView? = null
+    private var selectedTipView: MaterialCardView? = null
+
+    private var tipAmount: BigInteger = BigInteger("0")
+    private var selectedTip: Int = 0
+
+    private var listener: TipDialogResultListener? = null
+
+    // PAD
+    private var customAmount: String = "0"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -60,6 +66,18 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     }
 
     private fun initPadFragment() {
+        zeroButton.setOnClickListener(this)
+        oneButton.setOnClickListener(this)
+        twoButton.setOnClickListener(this)
+        threeButton.setOnClickListener(this)
+        fourButton.setOnClickListener(this)
+        fiveButton.setOnClickListener(this)
+        sixButton.setOnClickListener(this)
+        sevenButton.setOnClickListener(this)
+        eightButton.setOnClickListener(this)
+        nineButton.setOnClickListener(this)
+        acceptButton.setOnClickListener(this)
+        deleteButton.setOnClickListener(this)
         cancelButton.setOnClickListener {
             hidePad()
             true
@@ -73,15 +91,9 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     }
 
     private fun refreshAmounts() {
-        val total: BigInteger? = tipConfiguration?.baseAmount?.plus(getTipAmount(selectedTip ?: 0))
         // Action button
-        finishBtn.text = "TOTAL  •  " + formatCurrency(total ?: BigInteger("0"))  // i18n & TODO Format total amount
+        finishBtn.text = "TOTAL  •  " + formatCurrency(getTotalAmount())  // i18n & TODO Format total amount
         finishBtn.isEnabled = selectedTipView != null
-    }
-
-    private fun getTipAmount(percentage: Int): BigInteger {
-        val amount: Double = ((tipConfiguration?.baseAmount?.toInt() ?: 0) / BigInteger("100").toDouble()) * percentage.toDouble()
-        return BigDecimal.valueOf(amount).toBigInteger()
     }
 
     /**
@@ -227,6 +239,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
 
 
     private fun showPad() {
+        refreshPad()
         containerFlipper.inAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_in_right)
         containerFlipper.outAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_out_left)
         containerFlipper.showNext()
@@ -244,14 +257,80 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     }
 
     private fun callback() {
-        Toast.makeText(this.context, "Percentage $selectedTip", Toast.LENGTH_SHORT).show()
-        listener?.addTip(selectedTip)
+        Toast.makeText(this.context, "Tip $tipAmount", Toast.LENGTH_SHORT).show()
+        listener?.addTip(tipAmount)
         dismiss()
     }
 
+    private fun padNumberPressed(n: String) {
+        customAmount = customAmount.plus(n)
+        refreshPad()
+    }
+
+    private fun delPressed() {
+        if (customAmount.isNotEmpty()) {
+            customAmount = customAmount.dropLast(1)
+        }
+        refreshPad()
+    }
+
+    private fun acceptCustomAmountPressed() {
+        acceptCustomAmount()
+        hidePad()
+    }
+
+    private fun acceptCustomAmount() {
+        getTotalAmount()
+        tipAmount = safeAmount(customAmount)
+        selectedTip = getTipPercentage(tipAmount).toInt()
+        refreshAmounts()
+    }
+
+    private fun refreshPad() {
+        var customAmountSafe: BigInteger = safeAmount(customAmount)
+        val total: BigInteger = tipConfiguration?.baseAmount?.plus(customAmountSafe) ?: BigInteger("0")
+        padAmount.text = formatCurrency(customAmountSafe)
+        padTotalAmount.text = "Total: " + formatCurrency(total)
+    }
+
+    private fun safeAmount(str: String): BigInteger {
+        return if (str.isNotEmpty()) {
+            BigInteger(str)
+        } else {
+            BigInteger("0")
+        }
+    }
+
+    private fun getTipAmount(percentage: Int): BigInteger {
+        val amount: Double = ((tipConfiguration?.baseAmount?.toInt() ?: 0) / BigInteger("100").toDouble()) * percentage.toDouble()
+        return BigDecimal.valueOf(amount).toBigInteger()
+    }
+
+    private fun getTipPercentage(tip: BigInteger): BigInteger {
+        val amount: Double = (tip.toDouble() * BigInteger("100").toDouble()) /  (tipConfiguration?.baseAmount?.toInt() ?: 0)
+        return BigDecimal.valueOf(amount).toBigInteger()
+    }
+
+    private fun getTotalAmount(): BigInteger {
+        return tipConfiguration?.baseAmount?.plus(getTipAmount(selectedTip ?: 0)) ?: BigInteger("0")
+    }
+
     override fun onClick(v: View) {
+        // Finish button pressed
         if (v?.id?.equals(R.id.finishBtn)) {
             callback()
+        }
+        // Pad number pressed
+        else if (v?.tag == NUMBER_KEY) {
+            padNumberPressed((v as TextView).text.toString())
+        }
+        // Delete pressed
+        else if (v?.tag == DEL_KEY) {
+            delPressed()
+        }
+        // Accept pressed
+        else if (v?.tag == ACCEPT_KEY) {
+            acceptCustomAmountPressed()
         }
 
     }
@@ -259,6 +338,9 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     companion object {
 
         const val CARD_ID: String = "card"
+        const val NUMBER_KEY: String = "number"
+        const val DEL_KEY: String = "delete"
+        const val ACCEPT_KEY: String = "accept"
 
         const val CONFIG_PARAM: String = "config"
         const val CURRENCY_PARAM: String = "currency"
