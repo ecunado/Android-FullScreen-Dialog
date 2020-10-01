@@ -33,24 +33,33 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     }
 
     override fun init() {
-
-        // Set view animations
-        containerFlipper.inAnimation = AnimationUtils.loadAnimation(context, R.anim.right_to_left)
-        containerFlipper.outAnimation = AnimationUtils.loadAnimation(context, R.anim.left_to_right)
-
         tipConfiguration = this.arguments?.get(CONFIG_PARAM) as TipConfiguration
         currency = this.arguments?.get(CURRENCY_PARAM) as Currency
         listener = this.arguments?.get(LISTENER_PARAM) as TipDialogResultListener
+
+        initTipFragment()
+        initPadFragment()
+
+        reset()
+    }
+
+    private fun initTipFragment() {
         addTips(tipConfiguration?.tipPercentages)
         if (tipConfiguration!!.isEnterAmountEnabled) {
-            addCustomAmountAction("Custom Amount")   // TODO i18n
+            addCustomAmountAction("Custom Amount", "Enter a custom amount")   // TODO i18n
         }
         if (tipConfiguration!!.isSkipEnabled) {
-            addSkipAction("Skip")                  // TODO i18n
+            addSkipAction("Skip", "Continue")                  // TODO i18n
         }
         finishBtn.setOnClickListener(this);
         skip.setOnClickListener(this);
-        reset()
+    }
+
+    private fun initPadFragment() {
+        cancelButton.setOnClickListener {
+            hidePad()
+            true
+        }
     }
 
     private fun reset() {
@@ -100,16 +109,29 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
             addCardTipToRow(percentage, i, row)
             rowList.add(i, row)
         }
+        // Remove the rest of placeholders in the row
+        for (x in percentages.size until TIPS_PER_ROW) {
+            hideCardTipPlaceholderFromRow(x, row)
+        }
         // Add row to the UI
         tipLinearLayout.addView(row)
+    }
+
+    /**
+     * Hides a tip card placeholder from the row
+     */
+    private fun hideCardTipPlaceholderFromRow(n: Int, row: View) {
+        // Get card placeholder
+        val materialCard = getCardTipById("$CARD_ID$n", row)
+        materialCard.alpha = 0F
     }
 
     /**
      * Adds a tip card to the linear layout
      */
     private fun addCardTipToRow(percentage: Int, n: Int, row: View) {
-        // Create the card
-        val materialCard = getCardTipByIdRowById("$CARD_ID$n", row)
+        // Get card placeholder
+        val materialCard = getCardTipById("$CARD_ID$n", row)
 
         var percentageView: TextView = materialCard.findViewById<TextView>(R.id.percentage)
         var amountView: TextView = materialCard.findViewById<TextView>(R.id.amount)
@@ -146,7 +168,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         }
     }
 
-    private fun getCardTipByIdRowById(id: String, row: View): MaterialCardView {
+    private fun getCardTipById(id: String, row: View): MaterialCardView {
         var id: Int = resources.getIdentifier(id, "id", context?.packageName)
         return row.findViewById(id) as MaterialCardView
     }
@@ -159,15 +181,16 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
          return i18n.formatCurrencyCode(amount.toString(), currency?.alpha ?: Currency.GBP.alpha)
     }
 
-    private fun addCustomAmountAction(title: String): MaterialCardView {
+    private fun addCustomAmountAction(title: String, subtitle: String): MaterialCardView {
         // Create the row
         val row: View = layoutInflater.inflate(R.layout.action_row, null,false)
-        val materialCard = getCardTipByIdRowById(CARD_ID, row)
+        val materialCard = getCardTipById(CARD_ID, row)
         // Attache
         var titleView: TextView = row.findViewById<TextView>(R.id.percentage)
         var amountView: TextView = row.findViewById<TextView>(R.id.amount)
 
         titleView.text = title
+        amountView.text = subtitle
 
         // Set click listener to check the card
         materialCard.setOnClickListener {
@@ -176,7 +199,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
             // Check clicked card
             materialCard.isChecked = !materialCard.isChecked
 
-            containerFlipper.showNext()
+            showPad()
             true
         }
 
@@ -186,7 +209,19 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         return materialCard
     }
 
-    private fun addSkipAction(title: String): MaterialCardView? {
+    private fun showPad() {
+        containerFlipper.inAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_in_right)
+        containerFlipper.outAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_out_left)
+        containerFlipper.showNext()
+    }
+
+    private fun hidePad() {
+        containerFlipper.inAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_in_left)
+        containerFlipper.outAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_out_right)
+        containerFlipper.showPrevious()
+    }
+
+    private fun addSkipAction(title: String, subtitle: String): MaterialCardView? {
         return null
     }
 

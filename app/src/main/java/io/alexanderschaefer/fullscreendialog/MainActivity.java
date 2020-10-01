@@ -1,11 +1,9 @@
 package io.alexanderschaefer.fullscreendialog;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
-import com.handpoint.api.paymentsdk.dialogs.PadDialog;
 import com.handpoint.api.paymentsdk.dialogs.PadDialogResultListener;
 import com.handpoint.api.paymentsdk.dialogs.TipDialog;
 import com.handpoint.api.paymentsdk.dialogs.TipDialogResultListener;
@@ -29,8 +27,6 @@ public class MainActivity extends AppCompatActivity implements PadDialogResultLi
         MaterialButton button = findViewById(R.id.button);
         button.setOnClickListener(v -> openTipDialog());
 
-        MaterialButton button2 = findViewById(R.id.button2);
-        button2.setOnClickListener(v -> openPadDialog());
     }
 
     private void openTipDialog() {
@@ -40,11 +36,6 @@ public class MainActivity extends AppCompatActivity implements PadDialogResultLi
         tipPercentages.add(20);
         tipPercentages.add(25);
         tipPercentages.add(50);
-        tipPercentages.add(75);
-        tipPercentages.add(80);
-        tipPercentages.add(85);
-        tipPercentages.add(90);
-        tipPercentages.add(95);
         TipConfiguration config = new TipConfiguration(
                 new BigInteger("1000"),
                 "ADD TIP",
@@ -56,10 +47,6 @@ public class MainActivity extends AppCompatActivity implements PadDialogResultLi
 
         this.askForTipping(config);
 
-    }
-
-    private void openPadDialog() {
-        PadDialog.display(this.getSupportFragmentManager(), Currency.EUR, this);
     }
 
     private void askForTipping(TipConfiguration config) {

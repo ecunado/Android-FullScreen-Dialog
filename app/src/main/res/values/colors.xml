@@ -4,6 +4,7 @@
     <color name="colorDarkGray">#666666</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="White">#FFFFFF</color>
+    <color name="colorLight">#FFFFFF</color>
     <color name="colorLightGray">#cccccc</color>
     <color name="float_transparent">#00000000</color>
     <color name="success_stroke_color">#008B8B</color>
