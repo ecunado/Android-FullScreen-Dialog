@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
-    android:layout_margin="8dp"
+    android:layout_margin="7dp"
     android:checkable="true"
     android:clickable="false"
     android:focusable="true"

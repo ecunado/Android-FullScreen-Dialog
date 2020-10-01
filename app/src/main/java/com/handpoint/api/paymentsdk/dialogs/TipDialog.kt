@@ -27,6 +27,10 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     private var selectedTipView: MaterialCardView? = null
     private var listener: TipDialogResultListener? = null
 
+    private var customAmountCard: MaterialCardView? = null
+    private var skipCard: MaterialCardView? = null
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.tip_dialog, container, false)
@@ -46,13 +50,15 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     private fun initTipFragment() {
         addTips(tipConfiguration?.tipPercentages)
         if (tipConfiguration!!.isEnterAmountEnabled) {
-            addCardAction("Custom Amount", "Enter a custom amount")   // TODO i18n
+            addCustomAmountAction("Custom Amount", "Enter a custom amount")   // TODO i18n
         }
         if (tipConfiguration!!.isSkipEnabled) {
             addSkipAction("Skip", "Continue")                  // TODO i18n
         }
+        if (tipConfiguration!!.footer != null) {
+            footer.text = tipConfiguration!!.footer
+        }
         finishBtn.setOnClickListener(this);
-        skip.setOnClickListener(this);
     }
 
     private fun initPadFragment() {
@@ -181,36 +187,44 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
          return i18n.formatCurrencyCode(amount.toString(), currency?.alpha ?: Currency.GBP.alpha)
     }
 
-    private fun addCardAction(title: String, subtitle: String): MaterialCardView {
+    private fun addCustomAmountAction(title: String, subtitle: String) {
+        customAmountCard = createCardAction(title, subtitle)
+
+        // Set click listener to check the card
+        customAmountCard!!.setOnClickListener {
+            // Show pad
+            showPad()
+            true
+        }
+    }
+
+    private fun addSkipAction(title: String, subtitle: String) {
+        skipCard = createCardAction(title, subtitle)
+
+        // Set click listener to check the card
+        skipCard!!.setOnClickListener {
+            skip()
+            true
+        }
+    }
+
+    private fun createCardAction(title: String, subtitle: String): MaterialCardView? {
         // Create the row
         val row: View = layoutInflater.inflate(R.layout.action_row, null,false)
-        val materialCard = getCardTipById(CARD_ID, row)
-        // Attache
+
+        var card = getCardTipById(CARD_ID, row)
+
+        // Set title / subtitle
         var titleView: TextView = row.findViewById<TextView>(R.id.percentage)
         var amountView: TextView = row.findViewById<TextView>(R.id.amount)
 
         titleView.text = title
         amountView.text = subtitle
 
-        // Set click listener to check the card
-        materialCard.setOnClickListener {
-            // Show pad
-            showPad()
-            true
-        }
-
         // Add row to the UI
         tipLinearLayout.addView(row)
 
-        return materialCard
-    }
-
-    private fun addSkipAction(title: String, subtitle: String): MaterialCardView? {
-        return null
-    }
-
-    private fun setAction(title: String, subtitle: String): MaterialCardView? {
-        return null
+        return card
     }
 
 
@@ -226,14 +240,20 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         containerFlipper.showPrevious()
     }
 
+    private fun skip() {
+        reset()
+        callback()
+    }
+
+    private fun callback() {
+        Toast.makeText(this.context, "Percentage $selectedTip", Toast.LENGTH_SHORT).show()
+        listener?.addTip(selectedTip)
+        dismiss()
+    }
+
     override fun onClick(v: View) {
-        if (v?.id?.equals(R.id.finishBtn) || v?.id?.equals(R.id.skip)) {
-            if (v?.id?.equals(R.id.skip)) {
-                reset()
-            }
-            Toast.makeText(this.context, "Percentage $selectedTip", Toast.LENGTH_SHORT).show()
-            listener?.addTip(selectedTip)
-            dismiss()
+        if (v?.id?.equals(R.id.finishBtn)) {
+            callback()
         }
 
     }
