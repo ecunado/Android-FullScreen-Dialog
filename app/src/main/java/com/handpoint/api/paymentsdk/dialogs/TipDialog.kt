@@ -26,10 +26,8 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     private var selectedTip: Int = 0
     private var selectedTipView: MaterialCardView? = null
     private var listener: TipDialogResultListener? = null
-
     private var customAmountCard: MaterialCardView? = null
     private var skipCard: MaterialCardView? = null
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
