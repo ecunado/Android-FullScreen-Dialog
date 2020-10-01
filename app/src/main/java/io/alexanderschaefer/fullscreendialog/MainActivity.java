@@ -37,10 +37,17 @@ public class MainActivity extends AppCompatActivity implements PadDialogResultLi
         ArrayList<Integer> tipPercentages = new ArrayList<Integer>();
         tipPercentages.add(10);
         tipPercentages.add(15);
+        tipPercentages.add(20);
         tipPercentages.add(25);
+        tipPercentages.add(50);
+        tipPercentages.add(75);
+        tipPercentages.add(80);
+        tipPercentages.add(85);
+        tipPercentages.add(90);
+        tipPercentages.add(95);
         TipConfiguration config = new TipConfiguration(
-                new BigInteger("1230"),
-                "Add tip",
+                new BigInteger("1000"),
+                "ADD TIP",
                 tipPercentages,
                 Boolean.TRUE,
                 Boolean.TRUE,
@@ -56,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements PadDialogResultLi
     }
 
     private void askForTipping(TipConfiguration config) {
-        TipDialog.display(this.getSupportFragmentManager(), config, this);
+        TipDialog.display(this.getSupportFragmentManager(), config, Currency.EUR,this);
     }
 
     @Override

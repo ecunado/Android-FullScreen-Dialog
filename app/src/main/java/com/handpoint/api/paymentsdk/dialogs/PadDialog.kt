@@ -4,12 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.handpoint.api.shared.Currency
 import io.alexanderschaefer.fullscreendialog.R
-
-const val CURRENCY_PARAM = "currency"
 
 open class PadDialog : FullScreenDialog(), View.OnClickListener {
 
@@ -33,7 +30,10 @@ open class PadDialog : FullScreenDialog(), View.OnClickListener {
     }
 
     companion object {
-        private const val TAG = "pad_dialog"
+
+        const val CURRENCY_PARAM: String = "currency"
+        const val LISTENER_PARAM: String = "listener"
+        private const val TAG: String = "pad_dialog"
 
         @JvmStatic
         fun display(fragmentManager: FragmentManager, currency: Currency, listener: PadDialogResultListener): PadDialog {
