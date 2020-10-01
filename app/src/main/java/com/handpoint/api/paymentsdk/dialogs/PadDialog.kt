@@ -15,7 +15,7 @@ open class PadDialog : FullScreenDialog(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.pad_dialog, container, false)
+        return inflater.inflate(R.layout.pad_view, container, false)
     }
 
     override fun init() {
@@ -33,7 +33,7 @@ open class PadDialog : FullScreenDialog(), View.OnClickListener {
 
         const val CURRENCY_PARAM: String = "currency"
         const val LISTENER_PARAM: String = "listener"
-        private const val TAG: String = "pad_dialog"
+        private const val TAG: String = "pad_view"
 
         @JvmStatic
         fun display(fragmentManager: FragmentManager, currency: Currency, listener: PadDialogResultListener): PadDialog {

@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.card.MaterialCardView
 import com.handpoint.api.shared.Currency
@@ -33,6 +33,11 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     }
 
     override fun init() {
+
+        // Set view animations
+        containerFlipper.inAnimation = AnimationUtils.loadAnimation(context, R.anim.right_to_left)
+        containerFlipper.outAnimation = AnimationUtils.loadAnimation(context, R.anim.left_to_right)
+
         tipConfiguration = this.arguments?.get(CONFIG_PARAM) as TipConfiguration
         currency = this.arguments?.get(CURRENCY_PARAM) as Currency
         listener = this.arguments?.get(LISTENER_PARAM) as TipDialogResultListener
@@ -41,7 +46,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
             addCustomAmountAction("Custom Amount")   // TODO i18n
         }
         if (tipConfiguration!!.isSkipEnabled) {
-            addSkipAction("Skip")
+            addSkipAction("Skip")                  // TODO i18n
         }
         finishBtn.setOnClickListener(this);
         skip.setOnClickListener(this);
@@ -171,6 +176,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
             // Check clicked card
             materialCard.isChecked = !materialCard.isChecked
 
+            containerFlipper.showNext()
             true
         }
 
