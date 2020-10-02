@@ -1,12 +1,16 @@
 package com.handpoint.api.paymentsdk.dialogs
 
+import android.content.Context
+import android.graphics.Point
+import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.card.MaterialCardView
 import com.handpoint.api.shared.Currency
@@ -16,11 +20,14 @@ import io.alexanderschaefer.fullscreendialog.R
 import kotlinx.android.synthetic.main.tip_dialog.*
 import java.math.BigDecimal
 import java.math.BigInteger
+import kotlin.math.roundToInt
+
 
 class TipDialog: FullScreenDialog(), View.OnClickListener {
 
     private var tipConfiguration: TipConfiguration? = null
     private var currency: Currency? = null
+    private var padButtons: MutableList<View> = mutableListOf()
     private var rowList: MutableList<View> = mutableListOf()
     private var cardList: MutableList<MaterialCardView> = mutableListOf()
     private var customAmountCard: MaterialCardView? = null
@@ -66,21 +73,47 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     }
 
     private fun initPadFragment() {
-        zeroButton.setOnClickListener(this)
-        oneButton.setOnClickListener(this)
-        twoButton.setOnClickListener(this)
-        threeButton.setOnClickListener(this)
-        fourButton.setOnClickListener(this)
-        fiveButton.setOnClickListener(this)
-        sixButton.setOnClickListener(this)
-        sevenButton.setOnClickListener(this)
-        eightButton.setOnClickListener(this)
-        nineButton.setOnClickListener(this)
+        padButtons = mutableListOf()
+
+        padButtons.add(zeroButton)
+        padButtons.add(oneButton)
+        padButtons.add(twoButton)
+        padButtons.add(threeButton)
+        padButtons.add(fourButton)
+        padButtons.add(fiveButton)
+        padButtons.add(sixButton)
+        padButtons.add(sevenButton)
+        padButtons.add(eightButton)
+        padButtons.add(nineButton)
+
+        for (btn in padButtons) {
+            btn.setOnClickListener(this)
+        }
+
         acceptButton.setOnClickListener(this)
         deleteButton.setOnClickListener(this)
         cancelButton.setOnClickListener {
             hidePad()
             true
+        }
+
+        // Adjust height to the available space
+        resizePad()
+    }
+
+    private fun resizePad() {
+        padContainer.viewTreeObserver.addOnGlobalLayoutListener {
+            deleteButton.layoutParams = LinearLayout.LayoutParams(deleteButton.layoutParams.width, dpToPx(DEL_BTN_HEIGHT))
+            padScreen.layoutParams = LinearLayout.LayoutParams(padScreen.layoutParams.width, dpToPx(PAD_SCREEN_HEIGHT))
+            val availableHeight = getDisplayHeight()
+            val btnHeight = (availableHeight - dpToPx(DEL_BTN_HEIGHT) - dpToPx(PAD_SCREEN_HEIGHT)) / 4
+
+            firstRow.layoutParams = LinearLayout.LayoutParams(firstRow.layoutParams.width, btnHeight)
+            secondRow.layoutParams = LinearLayout.LayoutParams(secondRow.layoutParams.width, btnHeight)
+            thirdRow.layoutParams = LinearLayout.LayoutParams(thirdRow.layoutParams.width, btnHeight)
+            lastRow.layoutParams = LinearLayout.LayoutParams(lastRow.layoutParams.width, deleteButton.layoutParams.height + btnHeight)
+            zeroButtonWrapper.layoutParams = LinearLayout.LayoutParams(zeroButtonWrapper.layoutParams.width, btnHeight)
+
         }
     }
 
@@ -266,7 +299,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     }
 
     private fun callback() {
-        Toast.makeText(this.context, "Tip $tipAmount", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this.context, "Tip $tipAmount", Toast.LENGTH_SHORT).show() // TODO delete
         listener?.addTip(tipAmount)
         dismiss()
     }
@@ -329,6 +362,29 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         return tipConfiguration?.baseAmount?.plus(getTipAmount(selectedTip ?: 0)) ?: BigInteger("0")
     }
 
+    private fun getDisplayHeight(): Int {
+        val wm: WindowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val display = wm.defaultDisplay
+        val size = Point();
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            display.getSize(size)
+            size.y
+        } else {
+            display.height
+        }
+    }
+
+    private fun pxToDp(px: Int): Int {
+        val displayMetrics: DisplayMetrics = context!!.resources.displayMetrics
+        return (px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
+    }
+
+    private fun dpToPx(dp: Int): Int {
+        val displayMetrics = context!!.resources.displayMetrics
+        return (dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
+    }
+
     override fun onClick(v: View) {
         // Finish button pressed
         if (v?.id?.equals(R.id.finishBtn)) {
@@ -350,6 +406,9 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     }
 
     companion object {
+
+        const val DEL_BTN_HEIGHT: Int = 70
+        const val PAD_SCREEN_HEIGHT: Int = 140
 
         const val CARD_ID: String = "card"
         const val NUMBER_KEY: String = "number"

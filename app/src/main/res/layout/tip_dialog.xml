@@ -144,7 +144,7 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/textView"
+                    android:id="@+id/padScreen"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:background="#DBE4E1"
@@ -179,6 +179,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/firstRow"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/pinpad_number_height"
                     android:orientation="horizontal">
@@ -243,6 +244,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/secondRow"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/pinpad_number_height"
                     android:orientation="horizontal">
@@ -308,6 +310,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/thirdRow"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/pinpad_number_height"
                     android:orientation="horizontal">
@@ -374,6 +377,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lastRow"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/pinpad_number_bigger_button"
                     android:orientation="horizontal">
@@ -402,6 +406,7 @@
                         android:orientation="vertical">
 
                         <FrameLayout
+                            android:id="@+id/zeroButtonWrapper"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/pinpad_number_height"
                             android:background="@drawable/number_button_background_pinpad"
