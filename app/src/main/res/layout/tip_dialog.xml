@@ -28,7 +28,7 @@
                     android:id="@+id/tipLinearLayoutWrapper"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:paddingTop="18dp"
+                    android:paddingTop="0dp"
                     app:layout_constraintBottom_toTopOf="@+id/footerContainer"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
