@@ -106,7 +106,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
             deleteButton.layoutParams = LinearLayout.LayoutParams(deleteButton.layoutParams.width, dpToPx(DEL_BTN_HEIGHT))
             padScreen.layoutParams = LinearLayout.LayoutParams(padScreen.layoutParams.width, dpToPx(PAD_SCREEN_HEIGHT))
             val availableHeight = getDisplayHeight()
-            val btnHeight = (availableHeight - dpToPx(DEL_BTN_HEIGHT) - dpToPx(PAD_SCREEN_HEIGHT)) / 4
+            val btnHeight = (availableHeight - dpToPx(DEL_BTN_HEIGHT) - dpToPx(PAD_SCREEN_HEIGHT) - dpToPx(20)) / 4
 
             firstRow.layoutParams = LinearLayout.LayoutParams(firstRow.layoutParams.width, btnHeight)
             secondRow.layoutParams = LinearLayout.LayoutParams(secondRow.layoutParams.width, btnHeight)
