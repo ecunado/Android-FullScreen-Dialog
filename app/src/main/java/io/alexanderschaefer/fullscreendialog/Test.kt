@@ -13,7 +13,7 @@ fun getTipPercentage(baseAmount: BigInteger, tip: BigInteger): BigInteger {
 }
 
 fun main(args: Array<String>) {
-    val tot = getTipPercentage(BigInteger("80"), BigInteger("20"))
+    val tot = 10.div(3)
     println("Percentage $tot")
 }
 

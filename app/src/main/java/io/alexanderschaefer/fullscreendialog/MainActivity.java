@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements TipDialogResultLi
         tipPercentages.add(20);
         tipPercentages.add(25);
         tipPercentages.add(30);
+        tipPercentages.add(34);
+        tipPercentages.add(40);
         TipConfiguration config = new TipConfiguration(
                 new BigInteger("1000"),
                 "ADD TIP",

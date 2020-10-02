@@ -28,8 +28,10 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     private var rowList: MutableList<View> = mutableListOf()
     private var cardList: MutableList<MaterialCardView> = mutableListOf()
     private var customAmountCard: MaterialCardView? = null
-    private var skipCard: MaterialCardView? = null
     private var selectedTipView: MaterialCardView? = null
+
+    private var tipDialogResized: Boolean = false
+    private var padDialogResized: Boolean = false
 
     private var tipAmount: BigInteger = BigInteger("0")
     private var selectedTip: Int = 0
@@ -106,29 +108,51 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
 
     private fun resizePad() {
         padContainer.viewTreeObserver.addOnGlobalLayoutListener {
-            deleteButton.layoutParams = LinearLayout.LayoutParams(deleteButton.layoutParams.width, dpToPx(DEL_BTN_HEIGHT))
-            padScreen.layoutParams = LinearLayout.LayoutParams(padScreen.layoutParams.width, dpToPx(PAD_SCREEN_HEIGHT))
-            val availableHeight = getDisplayHeight()
-            val btnHeight = (availableHeight - dpToPx(DEL_BTN_HEIGHT) - dpToPx(PAD_SCREEN_HEIGHT) - dpToPx(20)) / 4
+            if (!padDialogResized) {
+                padDialogResized = true;
+                deleteButton.layoutParams = LinearLayout.LayoutParams(deleteButton.layoutParams.width, dpToPx(DEL_BTN_HEIGHT))
+                padScreen.layoutParams = LinearLayout.LayoutParams(padScreen.layoutParams.width, dpToPx(PAD_SCREEN_HEIGHT))
+                val availableHeight = getDisplayHeight()
+                val btnHeight = (availableHeight - dpToPx(DEL_BTN_HEIGHT) - dpToPx(PAD_SCREEN_HEIGHT) - dpToPx(20)) / 4
 
-            firstRow.layoutParams = LinearLayout.LayoutParams(firstRow.layoutParams.width, btnHeight)
-            secondRow.layoutParams = LinearLayout.LayoutParams(secondRow.layoutParams.width, btnHeight)
-            thirdRow.layoutParams = LinearLayout.LayoutParams(thirdRow.layoutParams.width, btnHeight)
-            lastRow.layoutParams = LinearLayout.LayoutParams(lastRow.layoutParams.width, deleteButton.layoutParams.height + btnHeight)
-            zeroButtonWrapper.layoutParams = LinearLayout.LayoutParams(zeroButtonWrapper.layoutParams.width, btnHeight)
+                firstRow.layoutParams = LinearLayout.LayoutParams(firstRow.layoutParams.width, btnHeight)
+                secondRow.layoutParams = LinearLayout.LayoutParams(secondRow.layoutParams.width, btnHeight)
+                thirdRow.layoutParams = LinearLayout.LayoutParams(thirdRow.layoutParams.width, btnHeight)
+                lastRow.layoutParams = LinearLayout.LayoutParams(lastRow.layoutParams.width, deleteButton.layoutParams.height + btnHeight)
+                zeroButtonWrapper.layoutParams = LinearLayout.LayoutParams(zeroButtonWrapper.layoutParams.width, btnHeight)
+            }
         }
     }
 
     private fun resizeTipDialog() {
         tipContainer.viewTreeObserver.addOnGlobalLayoutListener {
-            val availableHeight = getDisplayHeight()
-            val btnHeight = (availableHeight - toolbar.layoutParams.height - footerContainer.layoutParams.height - dpToPx(20)) / 4
-            for (crd in cardList) {
-
-                //crd.layoutParams =
-                  //      LinearLayout.LayoutParams(crd.layoutParams.width, btnHeight)
+            if (!tipDialogResized) {
+                tipDialogResized = true
+                val availableHeight = getDisplayHeight()
+                val freeAvailableHeight = (availableHeight - toolbar.layoutParams.height - footerContainer.layoutParams.height - dpToPx(20))
+                val rowHeight = freeAvailableHeight.div(numPadRows())
+                for (crd in cardList) {
+                    setCardHeight(crd, rowHeight)
+                }
+                if (tipConfiguration!!.isEnterAmountEnabled) {
+                    setCardHeight(customAmountCard, rowHeight)
+                }
             }
         }
+    }
+
+    private fun setCardHeight(card: MaterialCardView?, height: Int) {
+        card!!.findViewById<LinearLayout>(R.id.row).layoutParams =
+                FrameLayout.LayoutParams(
+                        card!!.findViewById<LinearLayout>(R.id.row).layoutParams.width,
+                        height)
+    }
+
+    private fun numPadRows(): Int {
+        val actionRows: Int = if (tipConfiguration?.isEnterAmountEnabled == true)  1 else  0
+        val nonFullRow: Int = if (tipConfiguration?.tipPercentages?.size!!.rem(TIPS_PER_ROW) > 0) 1 else 0
+        val numRows: Int = ((tipConfiguration?.tipPercentages?.size!!.div(TIPS_PER_ROW)) + nonFullRow + actionRows)
+        return if (ROW_OPTIMIZATION < numRows) ROW_OPTIMIZATION else numRows
     }
 
     private fun reset() {
@@ -303,7 +327,6 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     }
 
     private fun callback() {
-        Toast.makeText(this.context, "Tip $tipAmount", Toast.LENGTH_SHORT).show() // TODO delete
         listener?.addTip(tipAmount)
         dismiss()
     }
@@ -422,7 +445,8 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         const val CONFIG_PARAM: String = "config"
         const val CURRENCY_PARAM: String = "currency"
         const val LISTENER_PARAM: String = "listener"
-        const val TIPS_PER_ROW: Int = 2 // Number of tip cards per row
+        const val TIPS_PER_ROW: Int = 2         // Number of tip cards per row
+        const val ROW_OPTIMIZATION: Int = 4     // Design optimized for this number of rows
 
         private const val TAG = "tip_dialog"
 

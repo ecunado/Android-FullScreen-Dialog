@@ -11,7 +11,7 @@
     app:cardElevation="0dp"
     app:checkedIconTint="#FFFFFF"
     android:layout_width="0dp"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_weight="8"
     app:strokeColor="@color/colorNeutral"
     app:strokeWidth="1dp">
