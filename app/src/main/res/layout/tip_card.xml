@@ -12,12 +12,14 @@
     app:checkedIconTint="#FFFFFF"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_weight="8">
+    android:layout_weight="8"
+    app:strokeColor="@color/colorNeutral"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:id="@+id/row"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="128dp"
         android:orientation="vertical"
         android:layout_margin="0dp">
 

@@ -5,10 +5,7 @@ import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.fragment.app.FragmentManager
@@ -63,8 +60,13 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         if (tipConfiguration!!.isEnterAmountEnabled) {
             addCustomAmountAction("Custom Amount", "Enter a custom amount")   // TODO i18n
         }
-        if (tipConfiguration!!.isSkipEnabled) {
-            addSkipAction("Skip", "Continue")                  // TODO i18n
+        if (!tipConfiguration!!.isSkipEnabled) {
+            (skipButton.parent as ViewManager).removeView(skipButton)
+        } else {
+            skipButton!!.setOnClickListener {
+                skip()
+                true
+            }
         }
         if (tipConfiguration!!.footer != null) {
             footer.text = tipConfiguration!!.footer
@@ -185,7 +187,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     private fun hideCardTipPlaceholderFromRow(n: Int, row: View) {
         // Get card placeholder
         val materialCard = getCardTipById("$CARD_ID$n", row)
-        materialCard.alpha = 0F
+        (materialCard.parent as ViewManager).removeView(materialCard.findViewById<LinearLayout>(R.id.row))
     }
 
     /**
@@ -254,16 +256,6 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         customAmountCard!!.setOnClickListener {
             // Show pad
             showPad()
-            true
-        }
-    }
-
-    private fun addSkipAction(title: String, subtitle: String) {
-        skipCard = createActionCard(title, subtitle)
-
-        // Set click listener to check the card
-        skipCard!!.setOnClickListener {
-            skip()
             true
         }
     }
