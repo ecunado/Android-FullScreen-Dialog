@@ -69,7 +69,8 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         if (tipConfiguration!!.footer != null) {
             footer.text = tipConfiguration!!.footer
         }
-        finishBtn.setOnClickListener(this);
+        finishBtn.setOnClickListener(this)
+        resizeTipDialog()
     }
 
     private fun initPadFragment() {
@@ -113,6 +114,17 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
             thirdRow.layoutParams = LinearLayout.LayoutParams(thirdRow.layoutParams.width, btnHeight)
             lastRow.layoutParams = LinearLayout.LayoutParams(lastRow.layoutParams.width, deleteButton.layoutParams.height + btnHeight)
             zeroButtonWrapper.layoutParams = LinearLayout.LayoutParams(zeroButtonWrapper.layoutParams.width, btnHeight)
+        }
+    }
+
+    private fun resizeTipDialog() {
+        tipContainer.viewTreeObserver.addOnGlobalLayoutListener {
+            val availableHeight = getDisplayHeight()
+            val btnHeight = (availableHeight - toolbar.layoutParams.height - footerContainer.layoutParams.height - dpToPx(20)) / 4
+            for (crd in cardList){
+                crd.layoutParams =  
+                        LinearLayout.LayoutParams(crd.layoutParams.width, btnHeight)
+            }
         }
     }
 
