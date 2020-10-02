@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
-    android:layout_margin="1dp"
+    android:layout_margin="0dp"
     android:checkable="true"
     android:clickable="false"
     android:focusable="true"
@@ -11,13 +11,13 @@
     app:cardElevation="0dp"
     app:checkedIconTint="#FFFFFF"
     android:layout_width="0dp"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_weight="8">
 
     <LinearLayout
         android:id="@+id/row"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:orientation="vertical"
         android:layout_margin="0dp">
 
@@ -25,10 +25,12 @@
             android:id="@+id/percentage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="center|bottom"
             android:text=""
-            android:textSize="22sp"
+            android:textSize="32sp"
             android:textColor="@color/colorDarkGray"
+            android:fontFamily="@font/monserrat_regular"
+            android:layout_weight="3"
             app:autoSizeTextType="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -37,9 +39,11 @@
             android:id="@+id/amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="center|top"
             android:text=""
-            android:textSize="14sp"
+            android:textSize="24sp"
+            android:fontFamily="@font/monserrat_regular"
+            android:layout_weight="2"
             android:textColor="@color/colorLightGray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

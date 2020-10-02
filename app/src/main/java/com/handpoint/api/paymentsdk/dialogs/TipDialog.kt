@@ -121,9 +121,10 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         tipContainer.viewTreeObserver.addOnGlobalLayoutListener {
             val availableHeight = getDisplayHeight()
             val btnHeight = (availableHeight - toolbar.layoutParams.height - footerContainer.layoutParams.height - dpToPx(20)) / 4
-            for (crd in cardList){
-                crd.layoutParams =  
-                        LinearLayout.LayoutParams(crd.layoutParams.width, btnHeight)
+            for (crd in cardList) {
+
+                //crd.layoutParams =
+                  //      LinearLayout.LayoutParams(crd.layoutParams.width, btnHeight)
             }
         }
     }
@@ -340,7 +341,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         // Show entered amount
         selectedTipView = customAmountCard
         customAmountCard?.isChecked = true
-        setActionCardTitle(customAmountCard, "Custom Amount • " + formatPercentage(selectedTip), formatCurrency(tipAmount))   // TODO i18n
+        setActionCardTitle(customAmountCard, "Custom • " + formatPercentage(selectedTip), formatCurrency(tipAmount))   // TODO i18n
         refreshAmounts()
     }
 
