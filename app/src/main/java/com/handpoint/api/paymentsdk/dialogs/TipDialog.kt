@@ -113,7 +113,6 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
             thirdRow.layoutParams = LinearLayout.LayoutParams(thirdRow.layoutParams.width, btnHeight)
             lastRow.layoutParams = LinearLayout.LayoutParams(lastRow.layoutParams.width, deleteButton.layoutParams.height + btnHeight)
             zeroButtonWrapper.layoutParams = LinearLayout.LayoutParams(zeroButtonWrapper.layoutParams.width, btnHeight)
-
         }
     }
 
