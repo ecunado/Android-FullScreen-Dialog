@@ -118,7 +118,7 @@
                             android:elevation="0dp"
                             style="?android:attr/borderlessButtonStyle"
                             android:textColorHighlight="#FFFFFF"
-                            android:textColor="@color/colorWhite"
+                            android:textColor="@color/text_btn_grey"
                             android:layout_weight="7"/>
 
                         <RelativeLayout

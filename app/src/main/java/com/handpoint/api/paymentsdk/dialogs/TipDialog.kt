@@ -166,6 +166,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         // Action button
         finishBtn.text = "TOTAL  •  " + formatCurrency(getTotalAmount())  // i18n & TODO Format total amount
         finishBtn.isEnabled = selectedTipView != null
+        finishBtn.setTextColor(if (finishBtn.isEnabled) resources.getColor(R.color.colorWhite) else resources.getColor(R.color.text_btn_grey))
     }
 
     /**

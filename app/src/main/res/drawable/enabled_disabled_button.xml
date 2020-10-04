@@ -3,7 +3,7 @@
 
     <item
         android:state_enabled="false"
-        android:drawable="@drawable/cancel_button" />
+        android:drawable="@drawable/disabled_button"/>
 
     <item
         android:state_pressed="true"

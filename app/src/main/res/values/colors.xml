@@ -25,8 +25,8 @@
     <color name="dark_blue">#2d3059</color>
     <color name="colorPrimary">#42b04a</color>
     <color name="colorDanger">#42b04a</color>
-
     <color name="black_overlay">#66000000</color>
+    <color name="text_btn_grey">#979797</color>
 
     <drawable name="tint_enter_button">#2D9732</drawable>
     <drawable name="enter_button">#42b04a</drawable>
@@ -36,4 +36,5 @@
     <drawable name="return_button">#F2BE10</drawable>
     <drawable name="tint_number_button">#DBE4E1</drawable>
     <drawable name="number_button">#FFFFFF</drawable>
+    <drawable name="disabled_button">#dbdbdb</drawable>
 </resources>
