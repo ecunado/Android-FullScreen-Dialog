@@ -8,8 +8,8 @@ import android.util.DisplayMetrics
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentManager
-import com.google.android.material.card.MaterialCardView
 import com.handpoint.api.shared.Currency
 import com.handpoint.api.shared.TipConfiguration
 import com.handpoint.api.shared.i18n.i18n
@@ -26,9 +26,9 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
     private var currency: Currency? = null
     private var padButtons: MutableList<View> = mutableListOf()
     private var rowList: MutableList<View> = mutableListOf()
-    private var cardList: MutableList<MaterialCardView> = mutableListOf()
-    private var customAmountCard: MaterialCardView? = null
-    private var selectedTipView: MaterialCardView? = null
+    private var cardList: MutableList<CardView> = mutableListOf()
+    private var customAmountCard: CardView? = null
+    private var selectedTipView: CardView? = null
 
     private var tipDialogResized: Boolean = false
     private var padDialogResized: Boolean = false
@@ -141,7 +141,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         }
     }
 
-    private fun setCardHeight(card: MaterialCardView?, height: Int) {
+    private fun setCardHeight(card: CardView?, height: Int) {
         card!!.findViewById<LinearLayout>(R.id.row).layoutParams =
                 FrameLayout.LayoutParams(
                         card!!.findViewById<LinearLayout>(R.id.row).layoutParams.width,
@@ -233,8 +233,8 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
             // Uncheck the rest of cards
             uncheckCards(materialCard)
             // Check clicked card
-            materialCard.isChecked = !materialCard.isChecked
-            if (materialCard.isChecked) {
+            // materialCard.isChecked = !materialCard.isChecked
+            if (materialCard != selectedTipView) {
                 // Save selected percentage
                 selectedTip = percentage
                 selectedTipView = materialCard
@@ -251,18 +251,18 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         cardList.add(materialCard)
     }
 
-    private fun uncheckCards(materialCard: MaterialCardView?) {
-        for (i in 0 until cardList.size) {
+    private fun uncheckCards(materialCard: CardView?) {
+        /*for (i in 0 until cardList.size) {
             if (cardList[i] != materialCard) cardList[i].isChecked = false
         }
         if (materialCard != customAmountCard) {
             customAmountCard?.isChecked = false
-        }
+        }*/
     }
 
-    private fun getCardTipById(id: String, row: View): MaterialCardView {
+    private fun getCardTipById(id: String, row: View): CardView {
         var id: Int = resources.getIdentifier(id, "id", context?.packageName)
-        return row.findViewById(id) as MaterialCardView
+        return row.findViewById(id) as CardView
     }
 
     private fun formatPercentage(percentage: Int): String {
@@ -284,7 +284,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         }
     }
 
-    private fun createActionCard(title: String, subtitle: String): MaterialCardView? {
+    private fun createActionCard(title: String, subtitle: String): CardView? {
         // Create the row
         val row: View = layoutInflater.inflate(R.layout.action_row, null,false)
 
@@ -299,7 +299,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         return card
     }
 
-    private fun setActionCardTitle(card: MaterialCardView?, title: String, subtitle: String) {
+    private fun setActionCardTitle(card: CardView?, title: String, subtitle: String) {
         // Set title / subtitle
         var titleView: TextView = card!!.findViewById<TextView>(R.id.percentage)
         var amountView: TextView = card!!.findViewById<TextView>(R.id.amount)
@@ -355,7 +355,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         selectedTip = getTipPercentage(tipAmount).toInt()
         // Show entered amount
         selectedTipView = customAmountCard
-        customAmountCard?.isChecked = true
+        //customAmountCard?.isChecked = true
         setActionCardTitle(customAmountCard, "Custom • " + formatPercentage(selectedTip), formatCurrency(tipAmount))   // TODO i18n
         refreshAmounts()
     }

@@ -1,9 +1,9 @@
 package io.alexanderschaefer.fullscreendialog;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.material.button.MaterialButton;
 import com.handpoint.api.paymentsdk.dialogs.TipDialog;
 import com.handpoint.api.paymentsdk.dialogs.TipDialogResultListener;
 import com.handpoint.api.shared.Currency;
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements TipDialogResultLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MaterialButton button = findViewById(R.id.button);
+        Button button = findViewById(R.id.button);
         button.setOnClickListener(v -> openTipDialog());
 
     }

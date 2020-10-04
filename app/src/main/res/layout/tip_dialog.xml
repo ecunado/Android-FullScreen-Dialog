@@ -119,7 +119,6 @@
                             style="?android:attr/borderlessButtonStyle"
                             android:textColorHighlight="#FFFFFF"
                             android:textColorLink="@color/colorPrimary"
-                            app:rippleColor="@color/colorPrimary"
                             android:layout_weight="7"/>
 
                         <RelativeLayout
@@ -127,7 +126,6 @@
                             android:layout_width="0dp"
                             android:layout_weight="3"
                             android:layout_height="match_parent"
-                            android:background="@drawable/cancel_button_background_pinpad"
                             android:clickable="true"
                             android:orientation="horizontal">
 
@@ -413,7 +411,6 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:background="@drawable/cancel_button_background_pinpad"
                         android:clickable="true"
                         android:orientation="horizontal">
 
@@ -434,7 +431,7 @@
                         <FrameLayout
                             android:id="@+id/zeroButtonWrapper"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/pinpad_number_height"
+                            android:layout_height="match_parent"
                             android:background="@drawable/number_button_background_pinpad"
                             android:clickable="true">
 
