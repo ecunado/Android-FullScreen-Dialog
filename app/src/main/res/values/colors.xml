@@ -5,7 +5,7 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="White">#FFFFFF</color>
     <color name="colorLight">#FFFFFF</color>
-    <color name="colorLightGray">#cccccc</color>
+    <color name="colorLightGray">#999999</color>
     <color name="float_transparent">#00000000</color>
     <color name="success_stroke_color">#008B8B</color>
     <color name="sweet_dialog_bg_color">#FFFFFF</color>
@@ -20,14 +20,17 @@
     <color name="login_btn_bg_pressed_color">#BE6D1E</color>
     <color name="gray_blue">#49749F</color>
     <color name="green">#42b04a</color>
+    <color name="lightGreen">#e9f4e9</color>
     <color name="red">#d5272a</color>
     <color name="yellow">#f39c12</color>
     <color name="dark_blue">#2d3059</color>
     <color name="colorPrimary">#42b04a</color>
-    <color name="colorDanger">#42b04a</color>
+    <color name="colorDanger">#E2574C</color>
     <color name="black_overlay">#66000000</color>
     <color name="text_btn_grey">#979797</color>
 
+    <drawable name="green_bg">#e9f4e9</drawable>
+    <drawable name="white_bg">#FFFFFF</drawable>
     <drawable name="tint_enter_button">#2D9732</drawable>
     <drawable name="enter_button">#42b04a</drawable>
     <drawable name="tint_cancel_button">#D93B34</drawable>

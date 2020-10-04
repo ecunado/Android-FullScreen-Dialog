@@ -231,16 +231,14 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
 
         // Set click listener to check the card
         materialCard.setOnClickListener {
-            // Uncheck the rest of cards
-            uncheckCards(materialCard)
-            // Check clicked card
-            // materialCard.isChecked = !materialCard.isChecked
             if (materialCard != selectedTipView) {
+                checkCard(materialCard)
                 // Save selected percentage
                 selectedTip = percentage
                 selectedTipView = materialCard
                 tipAmount = getTipAmount(percentage)
             } else {
+                uncheckCard(materialCard)
                 selectedTip = 0
                 selectedTipView = null
             }
@@ -252,13 +250,18 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
         cardList.add(materialCard)
     }
 
-    private fun uncheckCards(materialCard: CardView?) {
-        /*for (i in 0 until cardList.size) {
-            if (cardList[i] != materialCard) cardList[i].isChecked = false
+    private fun checkCard(materialCard: CardView?) {
+        materialCard?.setCardBackgroundColor(resources.getColor(R.color.lightGreen))
+        for (i in 0 until cardList.size) {
+            if (cardList[i] != materialCard) uncheckCard(cardList[i])
         }
         if (materialCard != customAmountCard) {
-            customAmountCard?.isChecked = false
-        }*/
+            uncheckCard(customAmountCard)
+        }
+    }
+
+    private fun uncheckCard(materialCard: CardView?) {
+        materialCard?.setCardBackgroundColor(resources.getColor(R.color.colorWhite))
     }
 
     private fun getCardTipById(id: String, row: View): CardView {
@@ -351,7 +354,7 @@ class TipDialog: FullScreenDialog(), View.OnClickListener {
 
     private fun acceptCustomAmount() {
         // Uncheck the rest of cards
-        uncheckCards(customAmountCard)
+        checkCard(customAmountCard)
         tipAmount = safeAmount(customAmount)
         selectedTip = getTipPercentage(tipAmount).toInt()
         // Show entered amount
